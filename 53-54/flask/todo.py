@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, render_template
+from flask import Flask, render_template_string, render_template, request, redirect
 
 app = Flask(__name__)
 
@@ -24,17 +24,26 @@ def about():
 def countries():
     return render_template('countries.html', countries=countries_data)
 
+@app.route('/countries/<string:country_name>')
+def countries_detail(country_name):
+    # написать логику поиска страны по имени и передать ее в шаблон
+    # перебрать список стран и найти ту, что в country_name
 
-@app.route('/countries/<int:country_index>')
-def countries_detail(country_index):
-    country = countries_data[country_index]
-    return render_template('countries_detail.html', country=country)
+    for country in countries_data:
+        if country['name'] == country_name:
+            return render_template('countries_detail.html', country=country)
+    return 'Такой страны нет'
 
 
-# @app.route('/countries/china')
-# def countries_detail_china():
-#     country = countries_data[1]
-#     return render_template('countries_detail.html', country=country)
-
+@app.route('/countries/add', methods=['POST'])
+def countries_add():
+    # добавить словарь request.form в общий список, но так, чтобы ключи совпадали!
+    country = {
+        'name': request.form['name'],
+        'capital': request.form['capital'],
+        'people': request.form['population']
+    }
+    countries_data.append(country)
+    return redirect('/countries')
 
 app.run(debug=True)

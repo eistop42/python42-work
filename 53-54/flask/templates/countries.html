@@ -9,8 +9,19 @@
 <h2>Столицы стран</h2>
 
 {% for country in countries %}
-<p>{{ country.name }} </p>
+<a href="countries/{{country.name}}">{{ country.name }}</a>
 {% endfor %}
+
+<h2>Добавить страну</h2>
+<form method="post" action="/countries/add">
+    <label>Название страны</label><br>
+    <input type="text" name="name"><br>
+    <label>Название столицы</label><br>
+    <input type="text" name="capital"><br>
+    <label>Кол-во человек в столице</label><br>
+    <input type="text" name="population"><br>
+    <button style="margin-top:10px" type="submit">Добавить страну</button>
+</form>
 
 </body>
 </html>
