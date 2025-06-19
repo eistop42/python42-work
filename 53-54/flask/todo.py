@@ -46,4 +46,13 @@ def countries_add():
     countries_data.append(country)
     return redirect('/countries')
 
+
+@app.route('/countries/<string:country_name>/delete', methods=['POST'])
+def countries_delete(country_name):
+    # удалить словарь из списка стран при совпадении названия
+    for index, country in enumerate(countries_data):
+        if country['name'] == country_name:
+            countries_data.pop(index)
+    return redirect('/countries')
+
 app.run(debug=True)
