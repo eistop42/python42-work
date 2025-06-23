@@ -11,11 +11,12 @@
 <a href="/countries">Столицы стран </a>
 <h2>Список дел</h2>
 {% for todo in data %}
-<p>{{ todo.name }} -- {{ todo.status }}  </p>
+<p>{{ todo.name[0:1] }} -- {{ todo.status }}  </p>
 {% endfor %}
 
 <a href="/countries">
     <img src="https://cdn.tripster.ru/thumbs2/4bdc50b6-82c2-11ee-aeeb-bacb0497e01f.1220x600.jpeg" width="200">
 </a>
+<img src="/static/1.webp" width="200">
 </body>
 </html>
