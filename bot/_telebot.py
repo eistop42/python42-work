@@ -1,4 +1,4 @@
-import telebot
+import _telebot
 import random
 
 token = ''
