@@ -30,15 +30,27 @@ def test_inline(callback):
     inline_markup = InlineKeyboardMarkup()
     inline_markup.add(InlineKeyboardButton(text='философ', callback_data='phil'))
     inline_markup.add(InlineKeyboardButton(text='друг', callback_data='friend'))
+    bot.edit_message_text( 'выбери персонажа', message.chat.id, message.id, reply_markup=inline_markup)
 
-    bot.edit_message_text( 'задвай вопрос нейросети', message.chat.id, message.id, reply_markup=inline_markup)
-    bot.register_next_step_handler(message, get_answer)
 
-def get_answer(message):
+@bot.callback_query_handler(func=lambda callback: callback.data == 'phil')
+def ask_phil(callback):
+    message = callback.message
+    bot.edit_message_text('задвай вопрос нейросети', message.chat.id, message.id, reply_markup=None)
+    bot.register_next_step_handler(message, get_answer, 'ответь как философ')
+
+
+def get_answer(message, system_role=None):
     if message.text == '/cancel':
         return bot.reply_to(message, 'вышел из диалога')
     text = message.text
-    answer = yandex.get_answer(text)
+
+    # если передана роль, то вызываем яндекс используя этот параметр
+    if system_role:
+        answer = yandex.get_answer(text, system_role)
+    else:
+        answer = yandex.get_answer(text)
+
     bot.reply_to(message, answer)
     bot.register_next_step_handler(message, get_answer)
 

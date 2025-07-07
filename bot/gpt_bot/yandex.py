@@ -6,7 +6,7 @@ class YandexGPT:
     API_TOKEN = ''
     CATALOG = ''
 
-    def get_answer(self, text):
+    def get_answer(self, text, system_text='отвечай как обычно'):
 
         payload = {
                 "modelUri": f"gpt://{self.CATALOG}/yandexgpt",
@@ -25,7 +25,7 @@ class YandexGPT:
                     },
                     {
                         "role": "system",
-                        "text": "отвечай всегда как Пушкин"
+                        "text": system_text
                     }
                 ]
             }
