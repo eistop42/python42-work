@@ -17,9 +17,12 @@ def hello(message):
 
     bot.send_message(message.chat.id, f'Привет, {first_name}!')
 
+
 @bot.message_handler(commands=['costs'])
 def costs(message):
-    costs = db.get_costs()
+
+    user_id = db.get_user_by_id(message.chat.id)[0]
+    costs = db.get_costs(user_id)
 
     for cost in costs:
         row = f'{cost[0]}:{cost[1]}'
@@ -42,7 +45,8 @@ def save_name(message):
 def save_price(message, name):
     # запись товара в базу данных
     price = message.text
-    db.add_cost(name, price)
+    user_id = db.get_user_by_id(message.chat.id)[0]
+    db.add_cost(name, price, user_id)
 
 bot.infinity_polling()
 
