@@ -4,16 +4,16 @@ class DB:
     def __init__(self, db_name):
         self.db_name = db_name
 
-    def get_costs(self):
+    def get_costs(self, user_id):
         with sqlite3.connect(self.db_name) as conn:
             cur = conn.cursor()
-            data = cur.execute('SELECT * FROM costs').fetchall()
+            data = cur.execute('SELECT * FROM costs WHERE user_id = ?', (user_id, )).fetchall()
         return data
 
-    def add_cost(self, name, price):
+    def add_cost(self, name, price, user_id):
         with sqlite3.connect(self.db_name) as conn:
             cur = conn.cursor()
-            cur.execute('insert into costs (item, price) values (?, ?)', (name, price,  ))
+            cur.execute('insert into costs (item, price, user_id) values (?, ?, ?)', (name, price, user_id))
 
     def add_user(self, telegram_id, first_name):
         with sqlite3.connect(self.db_name) as conn:
@@ -29,5 +29,5 @@ class DB:
 
 db = DB('costs.db')
 
-# print(db.get_user_by_id(158448812))
-# print(db.get_user_by_id(234234))
+
+print(db.get_user_by_id(158448812))
