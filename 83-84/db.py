@@ -22,6 +22,7 @@ class Answers(Base):
     id = Column(Integer, autoincrement=True, primary_key=True)
     text = Column(String)
     question_id = Column(Integer, ForeignKey('questions.id'))
+    is_true = Column(Integer)
 
     question = relationship('Questions', back_populates='answers')
 
@@ -45,8 +46,15 @@ class DB():
             question = session.query(Answers).filter_by(question_id=question_id).all()
         return question
 
+    def check_answer(self, question_id, answer_id):
+        """Метод для проверки правльности ответа на вопрос"""
+        with self.Session() as session:
+            question = session.query(Answers).filter_by(question_id=question_id, id=answer_id, is_true=1).first()
+        return question
+
+
 db = DB()
 # поулчил вопрос
-res = db.get_next_question()
+res = db.check_answer(1, 2)
 # получил ответы, передав id вопроса
-print(db.get_answers(res.id))
+print(res)
