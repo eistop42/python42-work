@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<h1>Книги из шаблона</h1>
+
+{{books_list}}
+
+{% for book in books_list %}
+<p>Название: {{book.name}} Автор: {{book.author}} </p>
+{% endfor  %}
+
+</body>
+</html>
